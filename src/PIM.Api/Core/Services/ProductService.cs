@@ -16,22 +16,22 @@ namespace PIM.Api.Core.Services
             _productRepository = productRepository;
         }
 
-        public async Task<BaseResponse> SaveAsync(Product product)
+        public virtual async Task<BaseResponse> SaveAsync(Product product)
         {
             var productWithTheSameName = await _productRepository.GetByName(product.Name);
             if (productWithTheSameName != null)
                 return new BaseResponse($"Name {product.Name} is already in use", false);
 
             await _productRepository.SaveAndCommitAsync(product);
-            return new BaseResponse("Product successfully created ", true);
+            return new BaseResponse("Product successfully created", true);
         }
 
-        public IEnumerable<Product> GetByFilter(ProductsFilterModel filter)
+        public virtual IEnumerable<Product> GetByFilter(ProductsFilterModel filter)
         {
             return _productRepository.GetByFilter(filter);
         }
 
-        public async Task<BaseResponse> UpdateAsync(UpdateProduct updatedProduct)
+        public virtual async Task<BaseResponse> UpdateAsync(UpdateProductRequestModel updatedProduct)
         {
             var product = await _productRepository.GetAsync(updatedProduct.Id);
 

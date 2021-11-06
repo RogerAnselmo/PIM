@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PIM.Api.Core.Models;
@@ -24,11 +23,11 @@ namespace PIM.Api.Controllers
             if (!result.Success)
                 return BadRequest(result);
 
-            return Created(nameof(CreateProduct), null);
+            return Created(nameof(CreateProduct), result);
         }
 
         [HttpPut(nameof(UpdateProduct))]
-        public async Task<ObjectResult> UpdateProduct(UpdateProduct product)
+        public async Task<ObjectResult> UpdateProduct(UpdateProductRequestModel product)
         {
             var result = await _productService.UpdateAsync(product);
             if (!result.Success)

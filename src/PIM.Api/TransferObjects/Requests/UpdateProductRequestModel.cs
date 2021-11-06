@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PIM.Api.TransferObjects.Requests
+﻿namespace PIM.Api.TransferObjects.Requests
 {
-    public class UpdateProduct
+    public class UpdateProductRequestModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

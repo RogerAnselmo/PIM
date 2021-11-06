@@ -14,7 +14,7 @@ namespace PIM.Api.Core.Models
         public decimal Price { get; set; }
         public IEnumerable<ProductPhoto> Photos { get; set; }
 
-        public void UpdateValues(UpdateProduct updateProduct)
+        public void UpdateValues(UpdateProductRequestModel updateProduct)
         {
             Name = updateProduct.Name;
             Category = updateProduct.Category;
