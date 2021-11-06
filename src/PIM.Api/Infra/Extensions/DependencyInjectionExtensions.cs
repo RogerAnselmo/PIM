@@ -12,11 +12,15 @@ namespace PIM.Api.Infra.Extensions
         {
             //Services
             services.AddSingleton<ITokenProvider, JwtProvider>();
-            services.AddScoped<SystemUserService>();
             services.AddScoped<AuthService>();
+            services.AddScoped<SystemUserService>();
+            services.AddScoped<ProductService>();
+            services.AddScoped<OrderService>();
 
             //Repositories
             services.AddScoped<SystemUserRepository>();
+            services.AddScoped<ProductRepository>();
+            services.AddScoped<OrderRepository>();
         }
     }
 }

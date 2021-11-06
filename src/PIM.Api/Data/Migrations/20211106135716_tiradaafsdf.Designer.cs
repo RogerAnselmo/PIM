@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PIM.Api.Data.Context;
 
 namespace PIM.Api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20211106135716_tiradaafsdf")]
+    partial class tiradaafsdf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace PIM.Api.Migrations
 
                     b.Property<string>("DeliveryAdress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -62,10 +61,15 @@ namespace PIM.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -133,10 +137,17 @@ namespace PIM.Api.Migrations
                     b.ToTable("SystemUsers");
                 });
 
+            modelBuilder.Entity("PIM.Api.Core.Models.Product", b =>
+                {
+                    b.HasOne("PIM.Api.Core.Models.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("PIM.Api.Core.Models.ProductOrder", b =>
                 {
                     b.HasOne("PIM.Api.Core.Models.Order", "Order")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("OrderId");
 
                     b.HasOne("PIM.Api.Core.Models.Product", "Product")

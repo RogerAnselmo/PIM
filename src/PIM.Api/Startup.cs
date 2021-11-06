@@ -22,7 +22,11 @@ namespace PIM.Api
             services.AddContext(Configuration.GetValue<string>("ConnectionStrings:AppConnStr"));
             //services.AddCors(CorsPolicyName, Configuration.GetValue<string>("FrontEnd:BaseUrl"));
             services.AddTokenAuthorization(Configuration.GetValue<string>("token:Hash"));
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options
+                    .SerializerSettings
+                    .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using PIM.Api.Models.Base;
 
-namespace PIM.Api.Models
+namespace PIM.Api.Core.Models
 {
     public class SystemUser: BaseEntity
     {

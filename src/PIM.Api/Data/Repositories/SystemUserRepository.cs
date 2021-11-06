@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PIM.Api.Core.Models;
 using PIM.Api.Data.Context;
 using PIM.Api.Data.Repositories.Base;
-using PIM.Api.Models;
 
 namespace PIM.Api.Data.Repositories
 {

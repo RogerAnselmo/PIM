@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using PIM.Api.Core.Models;
 using PIM.Api.Data.Repositories;
-using PIM.Api.Models;
 using PIM.Api.TransferObjects.Responses.Base;
 
 namespace PIM.Api.Core.Services
@@ -16,8 +16,8 @@ namespace PIM.Api.Core.Services
 
         public async Task<BaseResponse> SaveAsync(SystemUser user)
         {
-            var userWithSameEmail = await _systemUserRepository.GetByUserName(user.UserName);
-            if (userWithSameEmail != null)
+            var userWithSameUserName = await _systemUserRepository.GetByUserName(user.UserName);
+            if (userWithSameUserName != null)
                 return new BaseResponse($"UserName {user.UserName} is already on use", false);
 
             await _systemUserRepository.SaveAndCommitAsync(user);

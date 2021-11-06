@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PIM.Api.Data.Context;
 
 namespace PIM.Api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20211106133424_tirada")]
+    partial class tirada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace PIM.Api.Migrations
 
                     b.Property<string>("DeliveryAdress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -62,34 +61,17 @@ namespace PIM.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("PIM.Api.Core.Models.ProductOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductOrders");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PIM.Api.Core.Models.ProductPhoto", b =>
@@ -133,19 +115,11 @@ namespace PIM.Api.Migrations
                     b.ToTable("SystemUsers");
                 });
 
-            modelBuilder.Entity("PIM.Api.Core.Models.ProductOrder", b =>
+            modelBuilder.Entity("PIM.Api.Core.Models.Product", b =>
                 {
-                    b.HasOne("PIM.Api.Core.Models.Order", "Order")
+                    b.HasOne("PIM.Api.Core.Models.Order", null)
                         .WithMany("Products")
                         .HasForeignKey("OrderId");
-
-                    b.HasOne("PIM.Api.Core.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PIM.Api.Core.Models.ProductPhoto", b =>

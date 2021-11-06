@@ -5,8 +5,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using PIM.Api.Core.Models;
 using PIM.Api.Infra.AuthEngine.Interface;
-using PIM.Api.Models;
 
 namespace PIM.Api.Infra.AuthEngine.Provider
 {

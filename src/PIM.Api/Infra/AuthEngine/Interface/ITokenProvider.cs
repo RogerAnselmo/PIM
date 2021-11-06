@@ -1,4 +1,4 @@
-﻿using PIM.Api.Models;
+﻿using PIM.Api.Core.Models;
 
 namespace PIM.Api.Infra.AuthEngine.Interface
 {

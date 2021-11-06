@@ -24,6 +24,12 @@ namespace PIM.Api.Data.Repositories.Base
         }
         public virtual async Task<TEntity> GetAsync(int id) => await DbSet.FindAsync(id);
         public virtual void Update(TEntity obj) => DbSet.Update(obj);
+        public virtual async Task UpdateAndCommitAsync(TEntity obj)
+        {
+            DbSet.Update(obj);
+            await SaveChangesAsync();
+        }
+
         public virtual void Remove(int id) => DbSet.Remove(DbSet.Find(id));
         public async Task SaveChangesAsync() => await Db.SaveChangesAsync();
 
