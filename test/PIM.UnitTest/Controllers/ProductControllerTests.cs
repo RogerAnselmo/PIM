@@ -10,6 +10,7 @@ using NUnit.Framework;
 using PIM.Api.Controllers;
 using PIM.Api.Core.Models;
 using PIM.Api.Core.Services;
+using PIM.Api.TransferObjects.Requests;
 using PIM.Api.TransferObjects.Responses.Base;
 
 namespace PIM.UnitTest.Controllers
@@ -18,6 +19,8 @@ namespace PIM.UnitTest.Controllers
     {
         protected ProductsController ProductsController;
         protected ProductService ProductService;
+        protected BaseResponse ResultObject;
+        protected const string ResultMessage = "any message";
 
         [SetUp]
         public void AllClassesSetup()
@@ -28,28 +31,35 @@ namespace PIM.UnitTest.Controllers
 
         public class CreateProduct : ProductControllerTests
         {
-            private Product product;
-            private BaseResponse resultMessage;
-            private const string successMessage = "Product successfully created";
+            private Product _product;
 
             public class WhenResultIsSuccess : CreateProduct
             {
                 [SetUp]
                 public async Task SetUp()
                 {
-                    resultMessage = new BaseResponse(successMessage, true);
-                    A.CallTo(() => ProductService.SaveAsync(product)).Returns(Task.FromResult(resultMessage));
-                    Result = await ProductsController.CreateProduct(product);
+                    _product = new Product
+                    {
+                        Brand = Faker.Random.Words(),
+                        Category = Faker.Random.Words(),
+                        Color = Faker.Random.Words(),
+                        Description = Faker.Random.Words(),
+                        Name = Faker.Random.Words(),
+                    };
+
+                    ResultObject = new BaseResponse(ResultMessage, true);
+                    A.CallTo(() => ProductService.SaveAsync(_product)).Returns(Task.FromResult(ResultObject));
+                    Result = await ProductsController.CreateProduct(_product);
                 }
 
                 [Test]
-                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.SaveAsync(product)).MustHaveHappenedOnceExactly();
+                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.SaveAsync(_product)).MustHaveHappenedOnceExactly();
 
                 [Test]
                 public void ShouldReturnCreated() => Result.GetType().Should().Be(typeof(CreatedResult));
 
                 [Test]
-                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(resultMessage);
+                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(ResultObject);
             }
 
             public class WhenResultIsError : CreateProduct
@@ -57,19 +67,72 @@ namespace PIM.UnitTest.Controllers
                 [SetUp]
                 public async Task SetUp()
                 {
-                    resultMessage = new BaseResponse(successMessage, false);
-                    A.CallTo(() => ProductService.SaveAsync(product)).Returns(Task.FromResult(resultMessage));
-                    Result = await ProductsController.CreateProduct(product);
+                    ResultObject = new BaseResponse(ResultMessage, false);
+                    A.CallTo(() => ProductService.SaveAsync(_product)).Returns(Task.FromResult(ResultObject));
+                    Result = await ProductsController.CreateProduct(_product);
                 }
 
                 [Test]
-                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.SaveAsync(product)).MustHaveHappenedOnceExactly();
+                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.SaveAsync(_product)).MustHaveHappenedOnceExactly();
 
                 [Test]
                 public void ShouldReturnBadRequest() => Result.GetType().Should().Be(typeof(BadRequestObjectResult));
 
                 [Test]
-                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(resultMessage);
+                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(ResultObject);
+            }
+        }
+
+        public class UpdateProduct : ProductControllerTests
+        {
+            private UpdateProductRequestModel _requestModel;
+            public class WhenResultIsSuccess : UpdateProduct
+            {
+                [SetUp]
+                public async Task SetUp()
+                {
+                    _requestModel = new UpdateProductRequestModel
+                    {
+                        Name = Faker.Random.Words(),
+                        Category = Faker.Random.Words(),
+                        Brand = Faker.Random.Words(),
+                        Color = Faker.Random.Words(),
+                        Description = Faker.Random.Words()
+                    };
+
+                    ResultObject = new BaseResponse(ResultMessage, true);
+                    A.CallTo(() => ProductService.UpdateAsync(_requestModel)).Returns(Task.FromResult(ResultObject));
+                    Result = await ProductsController.UpdateProduct(_requestModel);
+                }
+
+                [Test]
+                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.UpdateAsync(_requestModel)).MustHaveHappenedOnceExactly();
+
+                [Test]
+                public void ShouldReturnOk() => Result.GetType().Should().Be(typeof(OkObjectResult));
+
+                [Test]
+                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(ResultObject);
+            }
+
+            public class WhenResultIsError : UpdateProduct
+            {
+                [SetUp]
+                public async Task SetUp()
+                {
+                    ResultObject = new BaseResponse(ResultMessage, false);
+                    A.CallTo(() => ProductService.UpdateAsync(_requestModel)).Returns(Task.FromResult(ResultObject));
+                    Result = await ProductsController.UpdateProduct(_requestModel);
+                }
+
+                [Test]
+                public void ShouldCallSaveAsync() => A.CallTo(() => ProductService.UpdateAsync(_requestModel)).MustHaveHappenedOnceExactly();
+
+                [Test]
+                public void ShouldReturnBadRequest() => Result.GetType().Should().Be(typeof(BadRequestObjectResult));
+
+                [Test]
+                public void ShouldReturnSaveAsyncResult() => Result.Value.Should().BeEquivalentTo(ResultObject);
             }
         }
     }
