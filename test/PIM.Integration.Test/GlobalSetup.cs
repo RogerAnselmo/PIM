@@ -40,10 +40,10 @@ namespace PIM.Integration.Test
 
             return httpContent;
         }
-
+        
         private void ConfigAuthorize()
         {
-            var token = TestInstance.JwtProvider.GenerateToken(TestInstance.Hash, new SystemUser{UserName = "testingUser" });
+            var token = TestInstance.JwtProvider.GenerateToken(TestInstance.Hash, new SystemUser { UserName = "testingUser" });
             TestInstance.AutorizedHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }

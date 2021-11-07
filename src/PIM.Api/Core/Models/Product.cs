@@ -14,7 +14,7 @@ namespace PIM.Api.Core.Models
         public decimal Price { get; set; }
         public IEnumerable<ProductPhoto> Photos { get; set; }
 
-        public void UpdateValues(UpdateProductRequestModel updateProduct)
+        public Product SetValues(ProductRequestModel updateProduct)
         {
             Name = updateProduct.Name;
             Category = updateProduct.Category;
@@ -22,6 +22,7 @@ namespace PIM.Api.Core.Models
             Color = updateProduct.Color;
             Price = updateProduct.Price;
             Description = updateProduct.Description;
+            return this;
         }
     }
 }

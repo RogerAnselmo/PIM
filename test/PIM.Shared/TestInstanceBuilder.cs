@@ -33,7 +33,6 @@ namespace PIM.Shared
                 webHost.UseTestServer()
                     .UseStartup<Startup>()
                     .UseConfiguration(Configuration)
-                    //.UseEnvironment("Test")
                     .ConfigureLogging(logging =>
                     {
                         logging.SetMinimumLevel(LogLevel.Warning);

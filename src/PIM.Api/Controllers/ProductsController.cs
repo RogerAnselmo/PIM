@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PIM.Api.Core.Models;
 using PIM.Api.Core.Services;
 using PIM.Api.TransferObjects.Requests;
 
@@ -17,7 +16,7 @@ namespace PIM.Api.Controllers
         public ProductsController(ProductService productService) => _productService = productService;
 
         [HttpPost(nameof(CreateProduct))]
-        public async Task<ObjectResult> CreateProduct([FromBody] Product product)
+        public async Task<ObjectResult> CreateProduct([FromBody] ProductRequestModel product)
         {
             var result = await _productService.SaveAsync(product);
             if (!result.Success)
@@ -27,7 +26,7 @@ namespace PIM.Api.Controllers
         }
 
         [HttpPut(nameof(UpdateProduct))]
-        public async Task<ObjectResult> UpdateProduct(UpdateProductRequestModel product)
+        public async Task<ObjectResult> UpdateProduct(ProductRequestModel product)
         {
             var result = await _productService.UpdateAsync(product);
             if (!result.Success)

@@ -16,13 +16,13 @@ namespace PIM.Api.Data.Repositories
         {
         }
 
-        public async Task<Product> GetByName(string name) =>
+        public virtual async Task<Product> GetByName(string name) =>
             await Db.Products.Where(x => x.Name.ToUpper()
                     .Equals(name.ToUpper()))
                 .FirstOrDefaultAsync();
 
 
-        public IEnumerable<Product> GetByFilter(ProductsFilterModel filter) =>
+        public virtual IEnumerable<Product> GetByFilter(ProductsFilterModel filter) =>
             Db.Products.Where(x => (filter.Color.IsNullOrEmpty() || x.Color.ToUpper().Contains(filter.Color.ToUpper()))
                                    && (filter.Category.IsNullOrEmpty() || x.Category.ToUpper().Contains(filter.Category.ToUpper()))
                                    && (filter.Name.IsNullOrEmpty() || x.Name.ToUpper().Contains(filter.Name.ToUpper()))
@@ -31,7 +31,7 @@ namespace PIM.Api.Data.Repositories
                 .Skip(filter.Skip)
                 .Take(filter.GetPageSize());
 
-        public IEnumerable<Product> GetByIdRange(List<int> idList)
+        public virtual IEnumerable<Product> GetByIdRange(List<int> idList)
         {   
             return Db.Products.Where(x => idList.Contains(x.Id));
         }

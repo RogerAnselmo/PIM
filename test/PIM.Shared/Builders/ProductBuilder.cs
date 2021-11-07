@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using PIM.Api.Core.Models;
 using PIM.Api.Data.Context;
+using PIM.Api.TransferObjects.Requests;
 using PIM.Shared.Builders.Base;
 
 namespace PIM.Shared.Builders
@@ -33,11 +34,30 @@ namespace PIM.Shared.Builders
                 Price = Model.Price,
             };
 
+        public ProductBuilder WithName(string name)
+        {
+            Model.Name = name;
+            return this;
+        }
+
+        public ProductRequestModel CreateRequestModel() =>
+            new ProductRequestModel
+            {
+                Name = Model.Name,
+                Category = Model.Category,
+                Color = Model.Color,
+                Brand = Model.Brand,
+                Description = Model.Description,
+                Id = Model.Id,
+                Price = Model.Price
+            };
+
         public override async Task<Product> CreateInDataBase()
         {
             var obj = CreateInMemory();
             await BuilderContext.Products.AddAsync(obj);
             await BuilderContext.SaveChangesAsync();
+            ResetModel();
             return obj;
         }
     }

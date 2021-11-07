@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Microsoft.AspNetCore.Mvc;
+using PIM.Api.TransferObjects.Responses.Base;
 
 namespace PIM.UnitTest
 {
@@ -8,6 +9,7 @@ namespace PIM.UnitTest
         protected Faker Faker;
 
         public GlobalSetup() => Faker = new Faker();
-        public ObjectResult Result;
+        public ObjectResult HttpResultResult;
+        public BaseResponse ResponseResult;
     }
 }

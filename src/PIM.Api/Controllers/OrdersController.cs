@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using PIM.Api.Core.Services;
 using PIM.Api.TransferObjects.Requests;
 
@@ -7,6 +8,7 @@ namespace PIM.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly OrderService _orderService;

@@ -1,6 +1,6 @@
 ﻿namespace PIM.Api.TransferObjects.Requests
 {
-    public class UpdateProductRequestModel
+    public class ProductRequestModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

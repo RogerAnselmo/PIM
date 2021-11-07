@@ -9,18 +9,15 @@ namespace PIM.Api
 {
     public class Startup
     {
-        private const string CorsPolicyName = "ALLOW_FRONTEND";
         public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddSwagger();
             services.AddDependencyInjection();
             services.AddContext(Configuration.GetValue<string>("ConnectionStrings:AppConnStr"));
-            //services.AddCors(CorsPolicyName, Configuration.GetValue<string>("FrontEnd:BaseUrl"));
             services.AddTokenAuthorization(Configuration.GetValue<string>("token:Hash"));
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -34,7 +31,6 @@ namespace PIM.Api
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
-            //app.AddCors(CorsPolicyName);
             app.RunMigrations();
             app.AddTokenAuthorization();
             app.AddSwagger(); app.UseHttpsRedirection();

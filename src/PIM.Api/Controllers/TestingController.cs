@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using PIM.Api.Core.Models;
 using PIM.Api.Core.Services;
+using PIM.Api.TransferObjects.Requests;
 
 namespace PIM.Api.Controllers
 {
@@ -19,7 +20,7 @@ namespace PIM.Api.Controllers
         }
 
         [HttpPost(nameof(CreateProduct))]
-        public async Task<ObjectResult> CreateProduct([FromBody] Product product)
+        public async Task<ObjectResult> CreateProduct([FromBody] Product p)
         {
             const int max = 500;
             int index = 1;
@@ -28,7 +29,7 @@ namespace PIM.Api.Controllers
 
             while (index <= max)
             {
-                product = new Product
+                var product = new ProductRequestModel
                 {
                     Brand = $"Brand {random.Next(1, 5).ToString()}",
                     Category = $"Category {random.Next(6, 10).ToString()}",
