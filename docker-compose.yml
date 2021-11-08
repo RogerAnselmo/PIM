@@ -1,0 +1,48 @@
+version: '3'
+services: 
+    mssql-container:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment:
+            - SA_PASSWORD=ABC!@#321a
+            - ACCEPT_EULA=Y
+        ports:
+            - "1433:1433"
+        networks: 
+            - test-network
+        container_name: 
+            mssql-container
+
+    pimapp-container:
+        build: 
+            context: .
+            dockerfile: PIMApi.dockerfile
+        depends_on: 
+            - mssql-container
+        ports:
+            - "5000:5000"
+        networks: 
+            - test-network
+        container_name:
+            sumapp-container
+
+    #tests-container:
+    #    build: 
+    #        context: .
+    #        dockerfile: Tests.dockerfile
+    #    depends_on: 
+    #        - sumapp-container
+    #    networks: 
+    #        - test-network
+    #    ports:
+    #        - "5001:5001"
+    #    environment:
+    #        WAIT_HOSTS: mssql-container:1433
+    #    volumes:
+    #        - /opt/vsts/work/_temp:/var/temp
+    #    container_name:
+    #        tests-container
+
+networks: 
+    test-network:
+        driver: 
+            bridge
